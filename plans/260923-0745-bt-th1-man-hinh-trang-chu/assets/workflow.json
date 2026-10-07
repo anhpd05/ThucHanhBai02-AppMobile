@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "BT TH01 — Luồng thực thi 5 phase",
+    "subtitle": "Màn hình Trang chủ quản lý sinh viên (React Native 0.87)",
+    "preset": "editorial",
+    "theme": "light"
+  },
+  "lanes": [
+    { "id": "nen-tang", "label": "Nền tảng", "role": "system" },
+    { "id": "component", "label": "Component", "role": "frontend" },
+    { "id": "lap-rap", "label": "Lắp ráp", "role": "orchestrator" },
+    { "id": "nghiem-thu", "label": "Nghiệm thu", "role": "approver" }
+  ],
+  "steps": [
+    {
+      "id": "start",
+      "label": "Bắt đầu",
+      "kind": "start",
+      "lane": "nen-tang"
+    },
+    {
+      "id": "p1",
+      "label": "Phase 1 — theme.ts, data.ts, avatar.png",
+      "kind": "action",
+      "lane": "nen-tang"
+    },
+    {
+      "id": "p2",
+      "label": "Phase 2 — Header, StatCard, SearchBar",
+      "kind": "action",
+      "lane": "component"
+    },
+    {
+      "id": "p3",
+      "label": "Phase 3 — ProgressBar, CourseItem",
+      "kind": "action",
+      "lane": "component"
+    },
+    {
+      "id": "p4",
+      "label": "Phase 4 — BottomNav, StudentHomeScreen, App.tsx",
+      "kind": "action",
+      "lane": "lap-rap"
+    },
+    {
+      "id": "gate",
+      "label": "Đủ 8 tiêu chí?",
+      "kind": "decision",
+      "lane": "nghiem-thu"
+    },
+    {
+      "id": "p5",
+      "label": "Phase 5 — chạy Android, đối chiếu tiêu chí",
+      "kind": "action",
+      "lane": "nghiem-thu"
+    },
+    {
+      "id": "fix",
+      "label": "Sửa lỗi trong component/student",
+      "kind": "subprocess",
+      "lane": "component"
+    },
+    {
+      "id": "done",
+      "label": "Nộp bài: code + ảnh + video",
+      "kind": "terminal-success",
+      "lane": "nghiem-thu"
+    }
+  ],
+  "transitions": [
+    { "from": "start", "to": "p1", "kind": "normal" },
+    { "from": "p1", "to": "p2", "kind": "normal", "label": "mở khoá" },
+    { "from": "p1", "to": "p3", "kind": "normal", "label": "mở khoá" },
+    { "from": "p2", "to": "p4", "kind": "normal" },
+    { "from": "p3", "to": "p4", "kind": "normal" },
+    { "from": "p4", "to": "p5", "kind": "normal" },
+    { "from": "p5", "to": "gate", "kind": "normal" },
+    { "from": "gate", "to": "done", "kind": "branch-true", "label": "8/8 đạt" },
+    { "from": "gate", "to": "fix", "kind": "branch-false", "label": "còn thiếu" },
+    { "from": "fix", "to": "p5", "kind": "retry", "label": "chạy lại" }
+  ]
+}
