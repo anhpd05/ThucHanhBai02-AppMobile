@@ -34,7 +34,7 @@ cd ThucHanhBai02-AppMobile
 npm install
 ```
 
-Trên Windows, nên clone vào thư mục có đường dẫn ngắn (ví dụ `C:\dev`) để tránh lỗi đường dẫn dài khi build, xem mục "Lỗi thường gặp".
+Trên Windows, nên clone vào thư mục có đường dẫn ngắn (ví dụ `C:\dev`) để tránh lỗi đường dẫn dài khi build.
 
 ### 3. Chạy bằng emulator hoặc điện thoại
 
@@ -112,26 +112,3 @@ npx tsc --noEmit
 npx eslint App.tsx src __tests__
 npm test
 ```
-
-## Lỗi thường gặp
-
-**Build báo `Filename longer than 260 characters` hoặc `mkdir(...R_/node_modules...)`.** Đường dẫn thư mục dự án quá dài so với giới hạn của Windows. Gán thư mục cha sang một ổ ngắn rồi build từ đó, và luôn dùng đúng đường dẫn này:
-
-```bat
-subst R: "C:\duong\dan\thu-muc-cha"
-cd /d R:\ThucHanhSo02-DuBaoThoiTiet
-npm run android
-```
-
-Nếu trước đó đã build từ đường dẫn khác thì xoá `android\app\.cxx` và `android\build\generated\autolinking` rồi build lại.
-
-1. Tạo thư mục `android/app/src/main/assets`, rồi ở đường dẫn gốc thật chạy `npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res`.
-2. Thêm tạm `debuggableVariants = ["debug", "release"]` vào khối `react { }` trong `android/app/build.gradle`.
-3. Vào `R:\ThucHanhSo02-DuBaoThoiTiet\android` và chạy `gradlew.bat assembleRelease`.
-4. Bỏ dòng vừa thêm ở `build.gradle`, xoá `android/app/src/main/assets`, `android/app/src/main/res/drawable-*` và `android/app/src/main/res/raw` mới sinh ra.
-
-**`No such host is known` khi Gradle tải thư viện.** Mạng chập chờn, chạy lại lệnh build.
-
-**Emulator không có vị trí.** Chạy `adb emu geo fix 105.85 21.03` hoặc bấm "Dùng Hà Nội".
-
-**Cổng 8081 đang bị chiếm.** Chạy `npx react-native start --port 8082` rồi `adb reverse tcp:8081 tcp:8082`.
