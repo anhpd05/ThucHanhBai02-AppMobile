@@ -105,6 +105,8 @@ File tạo ra nằm ở `android/app/build/outputs/apk/release/app-release.apk`,
 - `theme/`: màu, cỡ chữ, khoảng cách
 - `types/`: kiểu dữ liệu dùng chung
 
+Ngoài `src/`, file `App.tsx` là điểm vào của app: khai báo `NavigationContainer` với hai màn Home và Detail, bọc trong `WeatherProvider`.
+
 ## Kiểm tra
 
 ```bash
